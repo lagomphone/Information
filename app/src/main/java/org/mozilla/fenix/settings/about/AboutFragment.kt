@@ -33,6 +33,7 @@ import org.mozilla.fenix.settings.about.AboutItemType.SUPPORT
 import org.mozilla.fenix.settings.about.AboutItemType.WHATS_NEW
 import org.mozilla.fenix.whatsnew.WhatsNew
 import org.mozilla.geckoview.BuildConfig as GeckoViewBuildConfig
+import android.app.AlertDialog
 
 /**
  * Displays the logo and information about the app, including library versions.
@@ -128,41 +129,19 @@ class AboutFragment : Fragment(), AboutPageListener {
     }
 
     private fun populateAboutList(): List<AboutPageItem> {
-        val context = requireContext()
-
         return listOf(
             AboutPageItem(
-                AboutItem.ExternalLink(
-                    WHATS_NEW,
-                    SupportUtils.WHATS_NEW_URL,
-                ),
-                getString(R.string.about_whats_new, getString(R.string.app_name)),
-            ),
-            AboutPageItem(
-                AboutItem.ExternalLink(
-                    SUPPORT,
-                    SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.HELP),
-                ),
-                getString(R.string.about_support),
-            ),
-            AboutPageItem(
                 AboutItem.Crashes,
-                getString(R.string.about_crashes),
+                getString(R.string.preferences_category_about),
             ),
             AboutPageItem(
                 AboutItem.ExternalLink(
-                    PRIVACY_NOTICE,
-                    SupportUtils.getMozillaPageUrl(SupportUtils.MozillaPage.PRIVATE_NOTICE),
+                    AboutItemType.PRIVACY_NOTICE,
+                    "https://lagomphone.com/pages/lagom-information-privacy-policy"
                 ),
-                getString(R.string.about_privacy_notice),
+                getString(R.string.about_privacy_notice)
             ),
-            AboutPageItem(
-                AboutItem.ExternalLink(
-                    RIGHTS,
-                    SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.YOUR_RIGHTS),
-                ),
-                getString(R.string.about_know_your_rights),
-            ),
+            // Removed "about_know_your_rights" item
             AboutPageItem(
                 AboutItem.ExternalLink(LICENSING_INFO, ABOUT_LICENSE_URL),
                 getString(R.string.about_licensing_information),
@@ -203,11 +182,30 @@ class AboutFragment : Fragment(), AboutPageListener {
             is AboutItem.Libraries -> {
                 openLibrariesPage()
             }
-            is AboutItem.Crashes -> {
-                startActivity(Intent(requireContext(), CrashListActivity::class.java))
-            }
+        is AboutItem.Crashes -> {
+            showCrashesAlertDialog()
+        }
         }
     }
+private fun showCrashesAlertDialog() {
+    AlertDialog.Builder(requireContext())
+        .setTitle("About Information") 
+.setMessage(
+    "Information is an independent project and is a fork from Iceraven-browser by fork-maintainers, " +
+    "which is itself a fork of Mozilla's Fenix version of Firefox. " +
+    "The source code of Information is available at " +
+    "https://github.com/lagomphone/Information. " +
+    "While all 3 apps use the Mozilla Public License, v. 2.0, " +
+    "Information is not affiliated with, endorsed by, or connected to Mozilla or the Iceraven-browser fork maintainers. " +
+    "Information is an app created by and for Lagomphone."
+)
+
+        .setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+        .create()
+        .show()
+}
 
     companion object {
         private const val ABOUT_LICENSE_URL = "about:license"

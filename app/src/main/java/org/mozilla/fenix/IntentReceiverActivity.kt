@@ -25,6 +25,7 @@ import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.perf.MarkersActivityLifecycleCallbacks
 import org.mozilla.fenix.perf.StartupTimeline
 import org.mozilla.fenix.shortcut.NewTabShortcutIntentProcessor
+import android.app.AlertDialog
 
 /**
  * Processes incoming intents and sends them to the corresponding activity.
@@ -56,14 +57,35 @@ class IntentReceiverActivity : Activity() {
         StartupTimeline.onActivityCreateEndIntentReceiver() // DO NOT MOVE ANYTHING BELOW HERE.
     }
 
+private fun displayDeniedDialog(url: String) {
+    val builder = AlertDialog.Builder(this)
+
+    builder.setTitle("Access denied")
+    val message = "We're sorry, but the URL '$url' cannot be accessed from your Lagomphone. Please try accessing it on another device."
+    builder.setMessage(message)
+    builder.setPositiveButton("Close") { dialog, _ ->
+        dialog.dismiss()
+        finish()
+    }
+
+    builder.setNegativeButton("Share Link") { dialog, _ ->
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url)
+        startActivity(Intent.createChooser(shareIntent, "Share link using"))
+        dialog.dismiss()
+        finish()
+    }
+
+    val alertDialog = builder.create()
+    alertDialog.show()
+}
+
+
+
     fun processIntent(intent: Intent) {
         // Call process for side effects, short on the first that returns true
-
-        var private = settings().openLinksInAPrivateTab
-        if (!private) {
-            // if PRIVATE_BROWSING_MODE is already set to true, honor that
-            private = intent.getBooleanExtra(PRIVATE_BROWSING_MODE, false)
-        }
+        val private = settings().openLinksInAPrivateTab
         intent.putExtra(PRIVATE_BROWSING_MODE, private)
         if (private) {
             Events.openedLink.record(Events.OpenedLinkExtra("PRIVATE"))
@@ -73,12 +95,79 @@ class IntentReceiverActivity : Activity() {
 
         addReferrerInformation(intent)
 
-        val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
-        val intentProcessorType = components.intentProcessors.getType(processor)
+ val allowedHosts = listOf(
+                "accounts.google.com",
+                "lagomphone.com",
+                "login.microsoftonline.com",
+                "api.login.yahoo.com",
+                )
 
-        launch(intent, intentProcessorType)
-    }
+            val data = intent.data
+            if (data != null) {
+                val host = data.host
+                val pathSegments = data.pathSegments
 
+                if (host == "www.gnu.org" && pathSegments.size == 2 && pathSegments[0] == "licenses" && pathSegments[1] == "gpl-3.0-standalone.html") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }
+
+                if (host == "www.gnu.org" && pathSegments.size == 2 && pathSegments[0] == "licenses" && pathSegments[1] == "agpl-3.0.txt") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }               
+
+                else if (host == "www.apache.org" && pathSegments.size == 2 && pathSegments[0] == "licenses" && pathSegments[1] == "LICENSE-2.0.txt") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }
+
+                else if (host == "organicmaps.app" && pathSegments.size == 1 && pathSegments[0] == "privacy") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }
+                else if (host == "organicmaps.app" && pathSegments.size == 1 && pathSegments[0] == "terms") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }
+
+                else if (host == "signal.org" && pathSegments.size == 1 && pathSegments[0] == "legal") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }
+
+                else if (host == "signal.org" && pathSegments.size == 2 && pathSegments[0] == "android" && pathSegments[1] == "apk") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }
+
+                else if (host == "meditofoundation.org" && pathSegments.size == 2 && pathSegments[0] == "about" && pathSegments[1] == "foundation") {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+                    launch(intent, intentProcessorType)
+                }
+
+                else if (allowedHosts.contains(host)) {
+                    val processor = getIntentProcessors(private).firstOrNull { it.process(intent) }
+                    val intentProcessorType = components.intentProcessors.getType(processor)
+
+                    launch(intent, intentProcessorType)
+                } else {
+                    displayDeniedDialog(data.toString())
+                }
+            } else {
+                displayDeniedDialog("")
+            }
+
+
+        }
     @VisibleForTesting
     internal fun launch(intent: Intent, intentProcessorType: IntentProcessorType) {
         intent.setClassName(applicationContext, intentProcessorType.activityClassName)

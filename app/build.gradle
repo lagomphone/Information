@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "io.github.forkmaintainers"
+        applicationId "com.lagomphone"
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
         versionCode 1
@@ -178,7 +178,7 @@ android {
         }
         forkRelease releaseTemplate >> {
             buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
-            applicationIdSuffix ".iceraven"
+            applicationIdSuffix ".information"
             def deepLinkSchemeValue = "iceraven"
             buildConfigField "String", "DEEP_LINK_SCHEME", "\"$deepLinkSchemeValue\""
             manifestPlaceholders.putAll([

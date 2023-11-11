@@ -43,26 +43,26 @@ class CustomizeHomeButtonViewHolder(
 
     @Composable
     override fun Content() {
-        val wallpaperState = components.appStore
-            .observeAsComposableState { state -> state.wallpaperState }.value ?: WallpaperState.default
-        var buttonColor: Color = FirefoxTheme.colors.actionTertiary
+        //  val wallpaperState = components.appStore
+        //    .observeAsComposableState { state -> state.wallpaperState }.value ?: WallpaperState.default
+     //   var buttonColor: Color = FirefoxTheme.colors.actionTertiary
 
-        wallpaperState.composeRunIfWallpaperCardColorsAreAvailable { cardColorLight, cardColorDark ->
-            buttonColor = if (isSystemInDarkTheme()) {
-                cardColorDark
-            } else {
-                cardColorLight
-            }
-        }
+        //  wallpaperState.composeRunIfWallpaperCardColorsAreAvailable { cardColorLight, cardColorDark ->
+            //     buttonColor = if (isSystemInDarkTheme()) {
+            //      cardColorDark
+            //    } else {
+            //       cardColorLight
+            //   }
+        //   }
 
         Column {
             Spacer(modifier = Modifier.height(68.dp))
 
-            TertiaryButton(
+            /* TertiaryButton(
                 text = stringResource(R.string.browser_menu_customize_home_1),
                 backgroundColor = buttonColor,
                 onClick = interactor::openCustomizeHomePage,
-            )
+            ) */
         }
     }
 }

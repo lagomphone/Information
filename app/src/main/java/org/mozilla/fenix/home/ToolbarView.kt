@@ -21,6 +21,10 @@ import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.home.toolbar.ToolbarInteractor
 import org.mozilla.fenix.utils.ToolbarPopupWindow
 import java.lang.ref.WeakReference
+import android.content.Intent
+import android.net.Uri
+import android.widget.ImageView
+import android.widget.PopupMenu
 
 /**
  * View class for setting up the home screen toolbar.
@@ -54,6 +58,36 @@ class ToolbarView(
             )
             true
         }
+
+        // Setting up menuButton2 to show a popup menu with the two options
+        val menuButton2: ImageView = binding.root.findViewById(R.id.menuButton2)
+        menuButton2.setOnClickListener {
+            showPopupMenu(it)
+        }
+    }
+    fun showPopupMenu(view: View) {
+        val popup = PopupMenu(view.context, view)
+        popup.menuInflater.inflate(R.menu.login_list, popup.menu)
+
+        popup.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.userguide2 -> {
+                    val googleUrl = "https://lagomphone.com/pages/user-guide"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(googleUrl))
+                    view.context.startActivity(intent)
+                    true
+                }
+                R.id.contact2 -> {
+                    val youtubeUrl = "https://lagomphone.com/pages/contact"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeUrl))
+                    view.context.startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popup.show()
     }
 
     private fun updateLayout(view: View) {

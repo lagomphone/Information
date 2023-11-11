@@ -6,8 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/add_search_engine"
-        android:icon="@drawable/mozac_ic_checkmark_24"
+        android:icon="@drawable/ic_autoplay"
         app:iconTint="?attr/textPrimary"
         android:title="@string/search_engine_add_button_content_description"
         app:showAsAction="always" />
+
+    <item android:id="@+id/show_url"
+        android:title="Show current URL"
+        />
+    <item android:id="@+id/settings"
+        android:title="Settings"
+        />
+    <item android:id="@+id/user_guide"
+        android:title="User Guide &amp; FAQ"/>
+    <item android:id="@+id/contact"
+        android:title="Contact Lagomphone"/>
+
+
 </menu>
+

@@ -239,91 +239,91 @@ class HomeFragment : Fragment() {
 
         components.appStore.dispatch(AppAction.ModeChange(Mode.fromBrowsingMode(browsingModeManager.mode)))
 
-        lifecycleScope.launch(IO) {
-            if (requireContext().settings().showPocketRecommendationsFeature) {
-                val categories = components.core.pocketStoriesService.getStories()
-                    .groupBy { story -> story.category }
-                    .map { (category, stories) -> PocketRecommendedStoriesCategory(category, stories) }
+       // lifecycleScope.launch(IO) {
+            //      if (requireContext().settings().showPocketRecommendationsFeature) {
+                //      val categories = components.core.pocketStoriesService.getStories()
+                //          .groupBy { story -> story.category }
+                //         .map { (category, stories) -> PocketRecommendedStoriesCategory(category, stories) }
 
-                components.appStore.dispatch(AppAction.PocketStoriesCategoriesChange(categories))
+                //      components.appStore.dispatch(AppAction.PocketStoriesCategoriesChange(categories))
 
-                if (requireContext().settings().showPocketSponsoredStories) {
-                    components.appStore.dispatch(
-                        AppAction.PocketSponsoredStoriesChange(
-                            components.core.pocketStoriesService.getSponsoredStories(),
-                        ),
-                    )
-                }
-            } else {
-                components.appStore.dispatch(AppAction.PocketStoriesClean)
-            }
-        }
+                //         if (requireContext().settings().showPocketSponsoredStories) {
+                    //             components.appStore.dispatch(
+                        //                 AppAction.PocketSponsoredStoriesChange(
+                            //                    components.core.pocketStoriesService.getSponsoredStories(),
+                            //                ),
+                        //              )
+                    //          }
+                //      } else {
+                //         components.appStore.dispatch(AppAction.PocketStoriesClean)
+                //      }
+    //    }
 
-        if (requireContext().settings().isExperimentationEnabled) {
-            messagingFeature.set(
-                feature = MessagingFeature(
-                    appStore = requireComponents.appStore,
-                ),
-                owner = viewLifecycleOwner,
-                view = binding.root,
-            )
-        }
+        //  if (requireContext().settings().isExperimentationEnabled) {
+        //    messagingFeature.set(
+        //       feature = MessagingFeature(
+        //           appStore = requireComponents.appStore,
+        //       ),
+        //       owner = viewLifecycleOwner,
+        //       view = binding.root,
+        //   )
+        //  }
 
-        if (requireContext().settings().showTopSitesFeature) {
-            topSitesFeature.set(
-                feature = TopSitesFeature(
-                    view = DefaultTopSitesView(
-                        appStore = components.appStore,
-                        settings = components.settings,
-                    ),
-                    storage = components.core.topSitesStorage,
-                    config = ::getTopSitesConfig,
-                ),
-                owner = viewLifecycleOwner,
-                view = binding.root,
-            )
-        }
+        // if (requireContext().settings().showTopSitesFeature) {
+        //     topSitesFeature.set(
+        //         feature = TopSitesFeature(
+        //            view = DefaultTopSitesView(
+        //                appStore = components.appStore,
+        //                settings = components.settings,
+        //            ),
+        //           storage = components.core.topSitesStorage,
+        //            config = ::getTopSitesConfig,
+        //       ),
+        //        owner = viewLifecycleOwner,
+        //       view = binding.root,
+        //     )
+        // }
 
-        if (requireContext().settings().showRecentTabsFeature) {
-            recentTabsListFeature.set(
-                feature = RecentTabsListFeature(
-                    browserStore = components.core.store,
-                    appStore = components.appStore,
-                ),
-                owner = viewLifecycleOwner,
-                view = binding.root,
-            )
+        // if (requireContext().settings().showRecentTabsFeature) {
+        //   recentTabsListFeature.set(
+        //      feature = RecentTabsListFeature(
+        //        browserStore = components.core.store,
+        //        appStore = components.appStore,
+        //     ),
+        //      owner = viewLifecycleOwner,
+        //    view = binding.root,
+        //  )
 
-            if (requireContext().settings().enableTaskContinuityEnhancements) {
-                recentSyncedTabFeature.set(
-                    feature = RecentSyncedTabFeature(
-                        context = requireContext(),
-                        appStore = requireComponents.appStore,
-                        syncStore = requireComponents.backgroundServices.syncStore,
-                        storage = requireComponents.backgroundServices.syncedTabsStorage,
-                        accountManager = requireComponents.backgroundServices.accountManager,
-                        historyStorage = requireComponents.core.historyStorage,
-                        coroutineScope = viewLifecycleOwner.lifecycleScope,
-                    ),
-                    owner = viewLifecycleOwner,
-                    view = binding.root,
-                )
-            }
-        }
+            //   if (requireContext().settings().enableTaskContinuityEnhancements) {
+                //      recentSyncedTabFeature.set(
+                    //         feature = RecentSyncedTabFeature(
+                        //            context = requireContext(),
+                        //            appStore = requireComponents.appStore,
+                        //           syncStore = requireComponents.backgroundServices.syncStore,
+                        //           storage = requireComponents.backgroundServices.syncedTabsStorage,
+                        //        accountManager = requireComponents.backgroundServices.accountManager,
+                        //       historyStorage = requireComponents.core.historyStorage,
+                        //       coroutineScope = viewLifecycleOwner.lifecycleScope,
+                        //     ),
+                    //     owner = viewLifecycleOwner,
+                    //      view = binding.root,
+                    //      )
+                //   }
+        //  }
 
-        if (requireContext().settings().showRecentBookmarksFeature) {
-            recentBookmarksFeature.set(
-                feature = RecentBookmarksFeature(
-                    appStore = components.appStore,
-                    bookmarksUseCase = run {
-                        requireContext().components.useCases.bookmarksUseCases
-                    },
-                    scope = viewLifecycleOwner.lifecycleScope,
-                ),
-                owner = viewLifecycleOwner,
-                view = binding.root,
-            )
-        }
+        //  if (requireContext().settings().showRecentBookmarksFeature) {
+        //      recentBookmarksFeature.set(
+        //         feature = RecentBookmarksFeature(
+        //           appStore = components.appStore,
+        //          bookmarksUseCase = run {
+        //              requireContext().components.useCases.bookmarksUseCases
+        //          },
+        //           scope = viewLifecycleOwner.lifecycleScope,
+        //       ),
+        //       owner = viewLifecycleOwner,
+        //       view = binding.root,
+        //    )
+        //  }
 
         if (requireContext().settings().historyMetadataUIFeature) {
             historyMetadataFeature.set(

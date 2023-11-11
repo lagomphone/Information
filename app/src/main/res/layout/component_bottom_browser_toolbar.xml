@@ -2,20 +2,45 @@
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-<mozilla.components.browser.toolbar.BrowserToolbar
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/browser_toolbar_height"
-    android:layout_gravity="bottom"
-    android:background="@drawable/toolbar_background"
-    android:clickable="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    app:browserToolbarClearColor="?attr/textPrimary"
-    app:browserToolbarInsecureColor="?attr/textPrimary"
-    app:browserToolbarMenuColor="?attr/textPrimary"
-    app:browserToolbarProgressBarGravity="top"
-    app:browserToolbarSecureColor="?attr/textPrimary"
-    app:browserToolbarTrackingProtectionAndSecurityIndicatorSeparatorColor="?borderPrimary" />
+    android:layout_height="wrap_content">
+
+    <mozilla.components.browser.toolbar.BrowserToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/toolbar_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:browserToolbarClearColor="?attr/textPrimary"
+        app:browserToolbarInsecureColor="?attr/textPrimary"
+        app:browserToolbarMenuColor="?attr/textPrimary"
+        app:browserToolbarProgressBarGravity="top"
+        app:browserToolbarSecureColor="?attr/textPrimary"
+        app:browserToolbarTrackingProtectionAndSecurityIndicatorSeparatorColor="?borderPrimary"></mozilla.components.browser.toolbar.BrowserToolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toolbar"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/toolbar_background"
+        android:gravity="end|bottom"
+        android:paddingBottom="0dp">
+
+        <ImageView
+            android:id="@+id/homeButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/ic_menu" />
+    </LinearLayout>
+</RelativeLayout>
+
+

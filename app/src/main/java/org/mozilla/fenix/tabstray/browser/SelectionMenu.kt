@@ -25,12 +25,12 @@ class SelectionMenu(
 
     private val menuItems by lazy {
         listOf(
-            SimpleBrowserMenuItem(
-                context.getString(R.string.tab_tray_multiselect_menu_item_bookmark),
-                textColorResource = R.color.fx_mobile_text_color_primary,
-            ) {
-                onItemTapped.invoke(Item.BookmarkTabs)
-            },
+       //     SimpleBrowserMenuItem(
+            //        context.getString(R.string.tab_tray_multiselect_menu_item_bookmark),
+            //        textColorResource = R.color.fx_mobile_text_color_primary,
+            //    ) {
+            //         onItemTapped.invoke(Item.BookmarkTabs)
+            //     },
 
             SimpleBrowserMenuItem(
                 context.getString(R.string.tab_tray_multiselect_menu_item_close),

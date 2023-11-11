@@ -40,25 +40,12 @@ class FloatingActionButtonBinding(
         when (selectedPage) {
             Page.NormalTabs -> {
                 actionButton.apply {
-                    shrink()
-                    show()
-                    contentDescription = context.getString(R.string.add_tab)
-                    setIconResource(R.drawable.ic_new)
-                    setOnClickListener {
-                        interactor.onNormalTabsFabClicked()
-                    }
+                    hide()
                 }
             }
             Page.PrivateTabs -> {
                 actionButton.apply {
-                    setText(R.string.tab_drawer_fab_content)
-                    extend()
-                    show()
-                    contentDescription = context.getString(R.string.add_private_tab)
-                    setIconResource(R.drawable.ic_new)
-                    setOnClickListener {
-                        interactor.onPrivateTabsFabClicked()
-                    }
+                    hide()
                 }
             }
             Page.SyncedTabs -> {

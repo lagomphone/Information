@@ -407,12 +407,12 @@ class Settings(private val appContext: Context) : PreferencesHolder {
 
     var manuallyCloseTabs by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_close_tabs_manually),
-        default = true,
+        default = false,
     )
 
     var closeTabsAfterOneDay by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_close_tabs_after_one_day),
-        default = false,
+        default = true,
     )
 
     var closeTabsAfterOneWeek by booleanPreference(
@@ -581,7 +581,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
 
     var shouldUseDarkTheme by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_dark_theme),
-        default = false,
+        default = true,
     )
 
     var shouldFollowDeviceTheme by booleanPreference(
@@ -1209,7 +1209,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
 
     var shouldPromptToSaveLogins by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_save_logins),
-        default = true,
+        default = false,
     )
 
     var shouldAutofillLogins by booleanPreference(

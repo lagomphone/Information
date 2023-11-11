@@ -11,8 +11,8 @@
 
     <ImageButton
         android:id="@+id/collect_multi_select"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/tab_tray_collection_button_multiselect_content_description"
         android:visibility="gone"
@@ -24,8 +24,8 @@
 
     <ImageButton
         android:id="@+id/share_multi_select"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/tab_tray_multiselect_share_content_description"
         android:visibility="gone"

@@ -19,7 +19,6 @@
         android:layout_height="@dimen/bottom_sheet_handle_height"
         android:layout_marginTop="@dimen/bottom_sheet_handle_top_margin"
         android:background="@color/fx_mobile_text_color_secondary"
-        android:contentDescription="@string/a11y_action_label_collapse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +38,7 @@
         android:layout_height="80dp"
         android:background="@color/fx_mobile_layer_color_1"
         android:importantForAccessibility="no"
-        app:layout_constraintTop_toBottomOf="@+id/handle" />
+        app:layout_constraintTop_toBottomOf="@id/handle" />
 
     <ImageButton
         android:id="@+id/exit_multi_select"
@@ -99,13 +98,6 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/tabs_header_private_tabs_title"
             android:icon="@drawable/ic_private_browsing" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/tabs_header_synced_tabs_title"
-            android:foregroundTint="@color/photonWhite"
-            android:icon="@drawable/ic_synced_tabs" />
 
     </com.google.android.material.tabs.TabLayout>
 

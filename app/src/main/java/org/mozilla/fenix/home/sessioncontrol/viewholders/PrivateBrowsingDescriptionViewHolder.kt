@@ -76,6 +76,14 @@ fun PrivateBrowsingDescription(
         modifier = Modifier.padding(horizontal = 4.dp),
     ) {
         Text(
+            text = "You are in Private Browsing mode.",
+            modifier = Modifier.padding(top = 4.dp),
+            color = FirefoxTheme.colors.textPrimary,
+            fontSize = 16.sp,
+            lineHeight = 20.sp,
+        )
+        // Text removed here
+        /* Text(
             text = stringResource(
                 R.string.private_browsing_placeholder_description_2,
                 stringResource(R.string.app_name),
@@ -84,7 +92,7 @@ fun PrivateBrowsingDescription(
             color = FirefoxTheme.colors.textPrimary,
             fontSize = 14.sp,
             lineHeight = 20.sp,
-        )
+        ) */
 
         // The text is wrapped in a box to increase the tap area.
         Box(
@@ -98,7 +106,8 @@ fun PrivateBrowsingDescription(
                     onClick = onLearnMoreClick,
                 ),
         ) {
-            Text(
+            // Text removed here
+            /* Text(
                 text = stringResource(R.string.private_browsing_common_myths),
                 modifier = Modifier.padding(top = 10.dp),
                 style = TextStyle(
@@ -107,10 +116,11 @@ fun PrivateBrowsingDescription(
                     textDecoration = TextDecoration.Underline,
                     textDirection = TextDirection.Content,
                 ),
-            )
+            ) */
         }
     }
 }
+
 
 @Composable
 @Preview

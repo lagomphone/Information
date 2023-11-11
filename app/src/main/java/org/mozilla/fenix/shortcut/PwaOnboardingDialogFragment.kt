@@ -31,21 +31,8 @@ class PwaOnboardingDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?,
     ): View? = inflater.inflate(R.layout.fragment_pwa_onboarding, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val components = requireComponents
-        val binding = FragmentPwaOnboardingBinding.bind(view)
-
-        binding.cancelButton.setOnClickListener {
-            ProgressiveWebApp.onboardingCancel.record()
-            dismiss()
-        }
-        binding.addButton.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-                components.useCases.webAppUseCases.addToHomescreen()
-            }.invokeOnCompletion {
-                dismiss()
-            }
-        }
-    }
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    dismiss()  // Add this line to automatically close the dialog
+}
 }

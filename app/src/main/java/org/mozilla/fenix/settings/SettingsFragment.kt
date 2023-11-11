@@ -63,7 +63,6 @@ import org.mozilla.fenix.perf.ProfilerViewModel
 import org.mozilla.fenix.settings.account.AccountUiView
 import org.mozilla.fenix.utils.Settings
 import kotlin.system.exitProcess
-import org.mozilla.fenix.GleanMetrics.Settings as SettingsMetrics
 
 @Suppress("LargeClass", "TooManyFunctions")
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -208,34 +207,34 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun update(shouldUpdateAccountUIState: Boolean) {
-        val settings = requireContext().settings()
+        //  val settings = requireContext().settings()
 
         val aboutPreference = requirePreference<Preference>(R.string.pref_key_about)
         val appName = getString(R.string.app_name)
         aboutPreference.title = getString(R.string.preferences_about, appName)
 
-        val deleteBrowsingDataPreference =
-            requirePreference<Preference>(R.string.pref_key_delete_browsing_data_on_quit_preference)
-        deleteBrowsingDataPreference.summary = if (settings.shouldDeleteBrowsingDataOnQuit) {
-            getString(R.string.delete_browsing_data_quit_on)
-        } else {
-            getString(R.string.delete_browsing_data_quit_off)
-        }
+        //  val deleteBrowsingDataPreference =
+        //      requirePreference<Preference>(R.string.pref_key_delete_browsing_data_on_quit_preference)
+        //   deleteBrowsingDataPreference.summary = if (settings.shouldDeleteBrowsingDataOnQuit) {
+        //       getString(R.string.delete_browsing_data_quit_on)
+        //   } else {
+        //       getString(R.string.delete_browsing_data_quit_off)
+        //   }
 
-        val tabSettingsPreference =
-            requirePreference<Preference>(R.string.pref_key_tabs)
-        tabSettingsPreference.summary = context?.settings()?.getTabTimeoutString()
+        //     val tabSettingsPreference =
+        //       requirePreference<Preference>(R.string.pref_key_tabs)
+        //    tabSettingsPreference.summary = context?.settings()?.getTabTimeoutString()
 
-        val autofillPreference = requirePreference<Preference>(R.string.pref_key_credit_cards)
-        autofillPreference.title = if (settings.addressFeature) {
-            getString(R.string.preferences_autofill)
-        } else {
-            getString(R.string.preferences_credit_cards)
-        }
+        //   val autofillPreference = requirePreference<Preference>(R.string.pref_key_credit_cards)
+        //   autofillPreference.title = if (settings.addressFeature) {
+        //       getString(R.string.preferences_autofill)
+        //   } else {
+        //       getString(R.string.preferences_credit_cards)
+        //  }
 
-        val openLinksInAppsSettingsPreference =
-            requirePreference<Preference>(R.string.pref_key_open_links_in_apps)
-        openLinksInAppsSettingsPreference.summary = context?.settings()?.getOpenLinksInAppsString()
+        //val openLinksInAppsSettingsPreference =
+        //   requirePreference<Preference>(R.string.pref_key_open_links_in_apps)
+        //  openLinksInAppsSettingsPreference.summary = context?.settings()?.getOpenLinksInAppsString()
 
         setupPreferences()
 
@@ -256,38 +255,37 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val directions: NavDirections? = when (preference.key) {
             resources.getString(R.string.pref_key_sign_in) -> {
-                SettingsMetrics.signIntoSync.add()
                 SettingsFragmentDirections.actionSettingsFragmentToTurnOnSyncFragment(
                     entrypoint = FenixFxAEntryPoint.SettingsMenu,
                 )
             }
-            resources.getString(R.string.pref_key_tabs) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToTabsSettingsFragment()
-            }
-            resources.getString(R.string.pref_key_home) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToHomeSettingsFragment()
-            }
-            resources.getString(R.string.pref_key_search_settings) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToSearchEngineFragment()
-            }
-            resources.getString(R.string.pref_key_tracking_protection_settings) -> {
-                TrackingProtection.etpSettings.record(NoExtras())
-                SettingsFragmentDirections.actionSettingsFragmentToTrackingProtectionFragment()
-            }
+            //    resources.getString(R.string.pref_key_tabs) -> {
+            //      SettingsFragmentDirections.actionSettingsFragmentToTabsSettingsFragment()
+            //  }
+            // resources.getString(R.string.pref_key_home) -> {
+            //   SettingsFragmentDirections.actionSettingsFragmentToHomeSettingsFragment()
+            //   }
+            //  resources.getString(R.string.pref_key_search_settings) -> {
+            //    SettingsFragmentDirections.actionSettingsFragmentToSearchEngineFragment()
+            // }
+            //   resources.getString(R.string.pref_key_tracking_protection_settings) -> {
+            //       TrackingProtection.etpSettings.record(NoExtras())
+            //     SettingsFragmentDirections.actionSettingsFragmentToTrackingProtectionFragment()
+            //  }
             resources.getString(R.string.pref_key_site_permissions) -> {
                 SettingsFragmentDirections.actionSettingsFragmentToSitePermissionsFragment()
             }
-            resources.getString(R.string.pref_key_private_browsing) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToPrivateBrowsingFragment()
-            }
-            resources.getString(R.string.pref_key_https_only_settings) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToHttpsOnlyFragment()
-            }
-            resources.getString(R.string.pref_key_cookie_banner_settings) -> {
-                FxNimbus.features.cookieBanners.recordExposure()
-                CookieBanners.visitedSetting.record(mozilla.components.service.glean.private.NoExtras())
-                SettingsFragmentDirections.actionSettingsFragmentToCookieBannerFragment()
-            }
+            //  resources.getString(R.string.pref_key_private_browsing) -> {
+            //    SettingsFragmentDirections.actionSettingsFragmentToPrivateBrowsingFragment()
+            //  }
+            //   resources.getString(R.string.pref_key_https_only_settings) -> {
+            //    SettingsFragmentDirections.actionSettingsFragmentToHttpsOnlyFragment()
+            //  }
+            //   resources.getString(R.string.pref_key_cookie_banner_settings) -> {
+            //      FxNimbus.features.cookieBanners.recordExposure()
+            //     CookieBanners.visitedSetting.record(mozilla.components.service.glean.private.NoExtras())
+            //     SettingsFragmentDirections.actionSettingsFragmentToCookieBannerFragment()
+            //  }
             resources.getString(R.string.pref_key_accessibility) -> {
                 SettingsFragmentDirections.actionSettingsFragmentToAccessibilityFragment()
             }
@@ -298,12 +296,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 Addons.openAddonsInSettings.record(mozilla.components.service.glean.private.NoExtras())
                 SettingsFragmentDirections.actionSettingsFragmentToAddonsFragment()
             }
-            resources.getString(R.string.pref_key_open_links_in_apps) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToOpenLinksInAppsFragment()
-            }
-            resources.getString(R.string.pref_key_data_choices) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToDataChoicesFragment()
-            }
+            //  resources.getString(R.string.pref_key_open_links_in_apps) -> {
+            // SettingsFragmentDirections.actionSettingsFragmentToOpenLinksInAppsFragment()
+            //   }
+            //   resources.getString(R.string.pref_key_data_choices) -> {
+            //     SettingsFragmentDirections.actionSettingsFragmentToDataChoicesFragment()
+            //    }
             resources.getString(R.string.pref_key_sync_debug) -> {
                 SettingsFragmentDirections.actionSettingsFragmentToSyncDebugFragment()
             }
@@ -332,14 +330,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
                 null
             }
-            resources.getString(R.string.pref_key_passwords) -> {
-                SettingsMetrics.passwords.record()
-                SettingsFragmentDirections.actionSettingsFragmentToSavedLoginsAuthFragment()
-            }
-            resources.getString(R.string.pref_key_credit_cards) -> {
-                SettingsMetrics.autofill.record()
-                SettingsFragmentDirections.actionSettingsFragmentToAutofillSettingFragment()
-            }
+           // resources.getString(R.string.pref_key_passwords) -> {
+            //    SettingsFragmentDirections.actionSettingsFragmentToSavedLoginsAuthFragment()
+           // }
+            //   resources.getString(R.string.pref_key_credit_cards) -> {
+            //      SettingsFragmentDirections.actionSettingsFragmentToAutofillSettingFragment()
+            //   }
             resources.getString(R.string.pref_key_about) -> {
                 SettingsFragmentDirections.actionSettingsFragmentToAboutFragment()
             }
@@ -354,16 +350,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
             resources.getString(R.string.pref_key_delete_browsing_data) -> {
                 SettingsFragmentDirections.actionSettingsFragmentToDeleteBrowsingDataFragment()
             }
-            resources.getString(R.string.pref_key_delete_browsing_data_on_quit_preference) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToDeleteBrowsingDataOnQuitFragment()
-            }
+            //   resources.getString(R.string.pref_key_delete_browsing_data_on_quit_preference) -> {
+            //       SettingsFragmentDirections.actionSettingsFragmentToDeleteBrowsingDataOnQuitFragment()
+            //   }
             resources.getString(R.string.pref_key_notifications) -> {
                 context?.navigateToNotificationsSettings {}
                 null
             }
-            resources.getString(R.string.pref_key_customize) -> {
-                SettingsFragmentDirections.actionSettingsFragmentToCustomizationFragment()
-            }
+            //  resources.getString(R.string.pref_key_customize) -> {
+            //     SettingsFragmentDirections.actionSettingsFragmentToCustomizationFragment()
+            //  }
             resources.getString(R.string.pref_key_privacy_link) -> {
                 val intent = SupportUtils.createCustomTabIntent(
                     requireContext(),
@@ -447,8 +443,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val debuggingKey = getPreferenceKey(R.string.pref_key_remote_debugging)
         val preferenceLeakCanary = findPreference<Preference>(leakKey)
         val preferenceRemoteDebugging = findPreference<Preference>(debuggingKey)
-        val preferenceMakeDefaultBrowser =
-            requirePreference<DefaultBrowserPreference>(R.string.pref_key_make_default_browser)
+        //     val preferenceMakeDefaultBrowser =
+        //       requirePreference<DefaultBrowserPreference>(R.string.pref_key_make_default_browser)
 
         if (!Config.channel.isReleased) {
             preferenceLeakCanary?.setOnPreferenceChangeListener { _, newValue ->
@@ -466,11 +462,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        preferenceMakeDefaultBrowser.apply {
-            updateSwitch()
-            onPreferenceClickListener =
-                getClickListenerForMakeDefaultBrowser()
-        }
+        //       preferenceMakeDefaultBrowser.apply {
+        //     updateSwitch()
+        //      onPreferenceClickListener =
+        //          getClickListenerForMakeDefaultBrowser()
+        //  }
 
         val preferenceStartProfiler =
             findPreference<Preference>(getPreferenceKey(R.string.pref_key_start_profiler))
@@ -489,17 +485,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 getPreferenceKey(R.string.pref_key_sync_debug),
             )?.isVisible = showSecretDebugMenuThisSession
             preferenceStartProfiler?.isVisible = showSecretDebugMenuThisSession &&
-                (requireContext().components.core.engine.profiler?.isProfilerActive() != null)
+                    (requireContext().components.core.engine.profiler?.isProfilerActive() != null)
         }
-        setupCookieBannerPreference()
+        //   setupCookieBannerPreference()
+        //   setupCookieBannerPreference()
         setupAmoCollectionOverridePreference(requireContext().settings())
-        setupGeckoLogsPreference(requireContext().settings())
         setupAllowDomesticChinaFxaServerPreference()
-        setupHttpsOnlyPreferences()
+        //setupHttpsOnlyPreferences()
         setupNotificationPreference()
-        setupSearchPreference()
-        setupHomepagePreference()
-        setupTrackingProtectionPreference()
+        //  setupSearchPreference()
+        //setupHomepagePreference()
+        // setupTrackingProtectionPreference()
     }
 
     /**
@@ -556,40 +552,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<Preference>(getPreferenceKey(R.string.pref_key_override_amo_collection))
 
         val show = (
-            FeatureFlags.customExtensionCollectionFeature && (
-                settings.amoCollectionOverrideConfigured() || settings.showSecretDebugMenuThisSession
+                FeatureFlags.customExtensionCollectionFeature && (
+                        settings.amoCollectionOverrideConfigured() || settings.showSecretDebugMenuThisSession
+                        )
                 )
-            )
         preferenceAmoCollectionOverride?.apply {
             isVisible = show
             summary = settings.overrideAmoCollection.ifEmpty { null }
         }
-    }
-
-    @VisibleForTesting
-    internal fun setupGeckoLogsPreference(settings: Settings) {
-        val preferenceEnabledGeckoLogs =
-            findPreference<Preference>(getPreferenceKey(R.string.pref_key_enable_gecko_logs))
-
-        val show = settings.showSecretDebugMenuThisSession
-        preferenceEnabledGeckoLogs?.isVisible = show
-
-        preferenceEnabledGeckoLogs?.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { _, newValue ->
-                context?.settings()?.enableGeckoLogs = newValue as Boolean
-                Toast.makeText(
-                    context,
-                    getString(R.string.quit_application),
-                    Toast.LENGTH_LONG,
-                ).show()
-                Handler(Looper.getMainLooper()).postDelayed(
-                    {
-                        exitProcess(0)
-                    },
-                    FXA_SYNC_OVERRIDE_EXIT_DELAY,
-                )
-                true
-            }
     }
 
     private fun setupAllowDomesticChinaFxaServerPreference() {
@@ -633,75 +603,75 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    @VisibleForTesting
-    internal fun setupHomepagePreference() {
-        with(requirePreference<Preference>(R.string.pref_key_home)) {
-            summary = context?.let {
-                when {
-                    it.settings().alwaysOpenTheHomepageWhenOpeningTheApp ->
-                        getString(R.string.opening_screen_homepage_summary)
-                    it.settings().openHomepageAfterFourHoursOfInactivity ->
-                        getString(R.string.opening_screen_after_four_hours_of_inactivity_summary)
-                    it.settings().alwaysOpenTheLastTabWhenOpeningTheApp ->
-                        getString(R.string.opening_screen_last_tab_summary)
-                    else -> null
-                }
-            }
-        }
-    }
+    // @VisibleForTesting
+    //   internal fun setupHomepagePreference() {
+    //    with(requirePreference<Preference>(R.string.pref_key_home)) {
+    //      summary = context?.let {
+    //         when {
+    //           it.settings().alwaysOpenTheHomepageWhenOpeningTheApp ->
+    //             getString(R.string.opening_screen_homepage_summary)
+    //         it.settings().openHomepageAfterFourHoursOfInactivity ->
+    //                getString(R.string.opening_screen_after_four_hours_of_inactivity_summary)
+    //           it.settings().alwaysOpenTheLastTabWhenOpeningTheApp ->
+    //               getString(R.string.opening_screen_last_tab_summary)
+    //          else -> null
+    //      }
+    //    }
+    //  }
+    // }
 
-    @VisibleForTesting
-    internal fun setupSearchPreference() {
-        with(requirePreference<Preference>(R.string.pref_key_search_settings)) {
-            summary =
-                requireContext().components.core.store.state.search.selectedOrDefaultSearchEngine?.name
-        }
-    }
+    //  @VisibleForTesting
+    //   internal fun setupSearchPreference() {
+    //    with(requirePreference<Preference>(R.string.pref_key_search_settings)) {
+    //       summary =
+    //           requireContext().components.core.store.state.search.selectedOrDefaultSearchEngine?.name
+    //   }
+    // }
 
-    @VisibleForTesting
-    internal fun setupTrackingProtectionPreference() {
-        with(requirePreference<Preference>(R.string.pref_key_tracking_protection_settings)) {
-            summary = context?.let {
-                when {
-                    !it.settings().shouldUseTrackingProtection -> getString(R.string.tracking_protection_off)
-                    it.settings().useStandardTrackingProtection -> getString(R.string.tracking_protection_standard)
-                    it.settings().useStrictTrackingProtection -> getString(R.string.tracking_protection_strict)
-                    it.settings().useCustomTrackingProtection -> getString(R.string.tracking_protection_custom)
-                    else -> null
-                }
-            }
-        }
-    }
+    //  @VisibleForTesting
+    //  internal fun setupTrackingProtectionPreference() {
+    //    with(requirePreference<Preference>(R.string.pref_key_tracking_protection_settings)) {
+    //        summary = context?.let {
+    //          when {
+    //              !it.settings().shouldUseTrackingProtection -> getString(R.string.tracking_protection_off)
+    //              it.settings().useStandardTrackingProtection -> getString(R.string.tracking_protection_standard)
+    //              it.settings().useStrictTrackingProtection -> getString(R.string.tracking_protection_strict)
+    //               it.settings().useCustomTrackingProtection -> getString(R.string.tracking_protection_custom)
+    //              else -> null
+    //          }
+    //      }
+    //   }
+    // }
 
-    @VisibleForTesting
-    internal fun setupCookieBannerPreference() {
-        with(requirePreference<Preference>(R.string.pref_key_cookie_banner_settings)) {
-            summary = context?.let {
-                isVisible = it.settings().shouldShowCookieBannerUI
+    //   @VisibleForTesting
+    //   internal fun setupCookieBannerPreference() {
+    //     with(requirePreference<Preference>(R.string.pref_key_cookie_banner_settings)) {
+    //        summary = context?.let {
+    //           isVisible = it.settings().shouldShowCookieBannerUI
+//
+    //          if (it.settings().shouldUseCookieBanner) {
+    //              getString(R.string.reduce_cookie_banner_option_on)
+    //         } else {
+    //              getString(R.string.reduce_cookie_banner_option_off)
+    //          }
+    //      }
+    //   }
+    // }
 
-                if (it.settings().shouldUseCookieBanner) {
-                    getString(R.string.reduce_cookie_banner_option_on)
-                } else {
-                    getString(R.string.reduce_cookie_banner_option_off)
-                }
-            }
-        }
-    }
-
-    @VisibleForTesting
-    internal fun setupHttpsOnlyPreferences() {
-        val httpsOnlyPreference =
-            requirePreference<Preference>(R.string.pref_key_https_only_settings)
-        httpsOnlyPreference.summary = context?.let {
-            when {
-                !it.settings().shouldUseHttpsOnly -> getString(R.string.preferences_https_only_off)
-                it.settings().shouldUseHttpsOnlyInAllTabs -> getString(R.string.preferences_https_only_on_all)
-                it.settings().shouldUseHttpsOnlyInPrivateTabsOnly ->
-                    getString(R.string.preferences_https_only_on_private)
-                else -> null
-            }
-        }
-    }
+    // @VisibleForTesting
+    //   internal fun setupHttpsOnlyPreferences() {
+    //      val httpsOnlyPreference =
+    //         requirePreference<Preference>(R.string.pref_key_https_only_settings)
+    //    httpsOnlyPreference.summary = context?.let {
+    //        when {
+    //            !it.settings().shouldUseHttpsOnly -> getString(R.string.preferences_https_only_off)
+    //           it.settings().shouldUseHttpsOnlyInAllTabs -> getString(R.string.preferences_https_only_on_all)
+    //          it.settings().shouldUseHttpsOnlyInPrivateTabsOnly ->
+    //               getString(R.string.preferences_https_only_on_private)
+    //             else -> null
+    //        }
+    //    }
+    // }
 
     private fun updateProfilerUI(profilerStatus: Boolean) {
         if (profilerStatus) {

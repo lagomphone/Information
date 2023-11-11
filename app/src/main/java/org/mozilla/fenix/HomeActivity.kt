@@ -163,6 +163,7 @@ import org.mozilla.fenix.trackingprotection.TrackingProtectionPanelDialogFragmen
 import org.mozilla.fenix.utils.Settings
 import java.lang.ref.WeakReference
 import java.util.Locale
+import android.widget.Toast
 
 /**
  * The main activity of the application. The application is primarily a single Activity (this one)
@@ -738,16 +739,17 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
         order["CUSTOM_CONTEXT_MENU_EMAIL"] = 0
         order["CUSTOM_CONTEXT_MENU_CALL"] = 1
         order["org.mozilla.geckoview.COPY"] = 2
-        order["CUSTOM_CONTEXT_MENU_SEARCH"] = 3
-        order["CUSTOM_CONTEXT_MENU_SEARCH_PRIVATELY"] = 4
-        order["org.mozilla.geckoview.PASTE"] = 5
-        order["org.mozilla.geckoview.SELECT_ALL"] = 6
-        order["CUSTOM_CONTEXT_MENU_SHARE"] = 7
+        // Removed - order["CUSTOM_CONTEXT_MENU_SEARCH"] = 3
+        // Removed - order["CUSTOM_CONTEXT_MENU_SEARCH_PRIVATELY"] = 3
+        order["org.mozilla.geckoview.PASTE"] = 3
+        order["org.mozilla.geckoview.SELECT_ALL"] = 4
+        order["CUSTOM_CONTEXT_MENU_SHARE"] = 5
 
-        return actions.sortedBy { actionName ->
+        val sortedActions = actions.filterNot { it == "CUSTOM_CONTEXT_MENU_SEARCH" || it == "CUSTOM_CONTEXT_MENU_SEARCH_PRIVATELY" }.sortedBy { actionName ->
             // Sort the actions in our preferred order, putting "other" actions unsorted at the end
             order[actionName] ?: actions.size
-        }.toTypedArray()
+        }
+        return sortedActions.toTypedArray()
     }
 
     final override fun onBackPressed() {
@@ -952,30 +954,37 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
      * @param additionalHeaders The extra headers to use when loading the URL.
      */
     @Suppress("LongParameterList")
-    fun openToBrowserAndLoad(
-        searchTermOrURL: String,
-        newTab: Boolean,
-        from: BrowserDirection,
-        customTabSessionId: String? = null,
-        engine: SearchEngine? = null,
-        forceSearch: Boolean = false,
-        flags: EngineSession.LoadUrlFlags = EngineSession.LoadUrlFlags.none(),
-        requestDesktopMode: Boolean = false,
-        historyMetadata: HistoryMetadataKey? = null,
-        additionalHeaders: Map<String, String>? = null,
-    ) {
-        openToBrowser(from, customTabSessionId)
-        load(
-            searchTermOrURL = searchTermOrURL,
-            newTab = newTab,
-            engine = engine,
-            forceSearch = forceSearch,
-            flags = flags,
-            requestDesktopMode = requestDesktopMode,
-            historyMetadata = historyMetadata,
-            additionalHeaders = additionalHeaders,
-        )
-    }
+fun openToBrowserAndLoad(
+    searchTermOrURL: String,
+    newTab: Boolean,
+    from: BrowserDirection,
+    customTabSessionId: String? = null,
+    engine: SearchEngine? = null,
+    forceSearch: Boolean = false,
+    flags: EngineSession.LoadUrlFlags = EngineSession.LoadUrlFlags.none(),
+    requestDesktopMode: Boolean = false,
+    historyMetadata: HistoryMetadataKey? = null,
+    additionalHeaders: Map<String, String>? = null,
+) {
+if (!searchTermOrURL.startsWith("about:license") && !searchTermOrURL.startsWith("https://lagomphone.com/")) {
+    Toast.makeText(applicationContext,"Access Denied!",Toast.LENGTH_SHORT).show();
+    return;
+}
+
+
+    openToBrowser(from, customTabSessionId)
+    load(
+        searchTermOrURL = searchTermOrURL,
+        newTab = newTab,
+        engine = engine,
+        forceSearch = forceSearch,
+        flags = flags,
+        requestDesktopMode = requestDesktopMode,
+        historyMetadata = historyMetadata,
+        additionalHeaders = additionalHeaders,
+    )
+}
+
 
     fun openToBrowser(from: BrowserDirection, customTabSessionId: String? = null) {
         if (navHost.navController.alreadyOnDestination(R.id.browserFragment)) return

@@ -91,6 +91,8 @@ class AccountUiView(
             preferenceFirefoxAccountAuthError.isVisible = false
             accountPreferenceCategory.isVisible = false
         }
+        preferenceSignIn.isVisible = false
+
     }
 
     /**

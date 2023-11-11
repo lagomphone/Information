@@ -16,6 +16,7 @@ import org.mozilla.fenix.GleanMetrics.ErrorPage
 import org.mozilla.fenix.ext.components
 import org.mozilla.fenix.ext.isOnline
 import java.lang.ref.WeakReference
+import android.widget.Toast
 
 class AppRequestInterceptor(
     private val context: Context,
@@ -37,6 +38,37 @@ class AppRequestInterceptor(
         isDirectNavigation: Boolean,
         isSubframeRequest: Boolean,
     ): RequestInterceptor.InterceptionResponse? {
+        if (!uri.startsWith("https://consent.google.com") &&
+            !uri.startsWith("https://lagomphone.com") &&
+            !uri.startsWith("https://accounts.google.") &&
+            !uri.startsWith("https://accounts.youtube.") &&
+            !uri.startsWith("https://login.yahoo.com") &&
+            !uri.startsWith("https://guce.yahoo.com") &&
+            !uri.startsWith("https://api.login.yahoo.com") &&
+            !uri.startsWith("https://firebasestorage.googleapis.com/v0/b/lagomphone-eb36a.appspot.com/o/") &&
+            !uri.startsWith("com.fsck.k9") &&
+            !uri.startsWith("msauth") &&
+            !uri.startsWith("about:license") &&
+            !uri.startsWith("about:blank") &&
+            !uri.startsWith("connectors/captcha") &&
+            !uri.startsWith("https://hcaptcha.com") &&
+            !uri.startsWith("https://www.recaptcha.net") &&
+            !uri.startsWith("https://login.live.com") &&
+            !uri.startsWith("https://newassets.hcaptcha.com") &&
+            !uri.startsWith("https://k9mail.app/privacy") &&
+            !uri.startsWith("https://www.hcaptcha.com") &&
+            !uri.startsWith("https://signal.org/legal") &&
+            !uri.startsWith("https://signal.org/android/apk") &&
+            !uri.startsWith("https://updates.signal.org/android") &&
+            !uri.startsWith("https://meditofoundation.org/about") &&
+            !uri.startsWith("https://meditofoundation.org/license") &&
+            !uri.startsWith("https://meditofoundation.org/privacy") &&
+            !uri.startsWith("https://meditofoundation.org/terms-of-service") &&
+            !uri.startsWith("https://www.google.com/recaptcha")) {
+Toast.makeText(context, "Access denied to " + uri, Toast.LENGTH_SHORT).show()
+return RequestInterceptor.InterceptionResponse.Deny
+
+        }
         interceptAmoRequest(uri, isSameDomain, hasUserGesture)?.let { response ->
             return response
         }

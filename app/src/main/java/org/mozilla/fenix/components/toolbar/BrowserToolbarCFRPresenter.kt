@@ -89,10 +89,7 @@ class BrowserToolbarCFRPresenter(
     }
 
     private fun shouldShowCFR(): Boolean {
-        return settings.shouldShowTotalCookieProtectionCFR && (
-            !settings.shouldShowCookieBannerReEngagementDialog() ||
-                settings.openTabsCount >= CRF_MINIMUM_NUMBER_OPENED_TABS
-            )
+        return false
     }
 
     /**

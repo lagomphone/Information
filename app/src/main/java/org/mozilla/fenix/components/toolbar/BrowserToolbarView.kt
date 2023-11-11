@@ -5,13 +5,18 @@
 package org.mozilla.fenix.components.toolbar
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.annotation.LayoutRes
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -33,6 +38,7 @@ import org.mozilla.fenix.utils.Settings
 import org.mozilla.fenix.utils.ToolbarPopupWindow
 import java.lang.ref.WeakReference
 import mozilla.components.browser.toolbar.behavior.ToolbarPosition as MozacToolbarPosition
+import android.app.Activity
 
 @SuppressWarnings("LargeClass")
 class BrowserToolbarView(
@@ -62,7 +68,7 @@ class BrowserToolbarView(
     @VisibleForTesting
     internal val isPwaTabOrTwaTab: Boolean
         get() = customTabSession?.config?.externalAppType == ExternalAppType.PROGRESSIVE_WEB_APP ||
-            customTabSession?.config?.externalAppType == ExternalAppType.TRUSTED_WEB_ACTIVITY
+                customTabSession?.config?.externalAppType == ExternalAppType.TRUSTED_WEB_ACTIVITY
 
     init {
         val isCustomTabSession = customTabSession != null
@@ -111,18 +117,7 @@ class BrowserToolbarView(
                     ThemeManager.resolveAttribute(R.attr.borderPrimary, context),
                 )
 
-                display.urlFormatter =
-                    if (settings.shouldStripUrl) {
-                        {
-                                url ->
-                            URLStringUtils.toDisplayUrl(url)
-                        }
-                    } else {
-                        {
-                                url ->
-                            url
-                        }
-                    }
+                display.urlFormatter = { url -> URLStringUtils.toDisplayUrl(url) }
 
                 display.colors = display.colors.copy(
                     text = primaryTextColor,
@@ -193,6 +188,71 @@ class BrowserToolbarView(
                 )
             }
         }
+
+
+
+
+        val homeButton: ImageView = layout.findViewById(R.id.homeButton)
+        for (i in 0 until view.childCount) {
+            val childView = view.getChildAt(i)
+            if (childView != homeButton) {
+                childView.visibility = View.GONE
+            }
+        }
+        homeButton.visibility = View.VISIBLE
+        homeButton.setOnClickListener { view ->
+            val popup = PopupMenu(view.context, view)
+            popup.menuInflater.inflate(R.menu.add_custom_searchengine_menu, popup.menu)
+
+            val addSearchEngineItem = popup.menu.findItem(R.id.add_search_engine)
+            addSearchEngineItem.isVisible = false
+
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.settings -> {
+                        val settingsMenuItem = ToolbarMenu.Item.Settings
+                        settingsMenuItem.performHapticIfNeeded(view)
+                        interactor.onBrowserToolbarMenuItemTapped(settingsMenuItem)
+                        true
+                    }
+                    R.id.show_url -> {
+                        val currentUrl = view.context.components.core.store.state.selectedTab?.content?.url
+                        if (currentUrl != null) {
+                            AlertDialog.Builder(view.context)
+                                .setTitle("Current URL")
+                                .setMessage(currentUrl)
+                                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                        true
+                    }
+
+                    R.id.user_guide -> {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://lagomphone.com/pages/user-guide"))
+                        view.context.startActivity(intent)
+                        true
+                    }
+                    R.id.contact -> {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://lagomphone.com/pages/contact"))
+                        view.context.startActivity(intent)
+                        true
+                    }
+
+
+                    else -> false
+                }
+            }
+
+            popup.show()
+        }
+
+
+
+
+
+
     }
 
     fun expand() {
