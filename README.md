@@ -1,6 +1,6 @@
 # Information for Lagomphone
 
-"Information" is a specialized browser app for Lagomphone, based on the Iceraven Browser. This project is a fork of the Iceraven Browser maintained by [fork-maintainers](https://github.com/fork-maintainers/iceraven-browser) and is released under the Mozilla Public License, v. 2.0.
+"Information" is a specialized app for Lagomphone, based on the Iceraven Browser. This project is a fork of the Iceraven Browser maintained by [fork-maintainers](https://github.com/fork-maintainers/iceraven-browser) and is released under the Mozilla Public License, v. 2.0.
 
 - **Original Iceraven Browser**: [Github Repository](https://github.com/fork-maintainers/iceraven-browser)
 
