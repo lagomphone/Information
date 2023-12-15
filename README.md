@@ -35,7 +35,7 @@ The following building instructions are adapted from the original Iceraven Brows
 2. **Clone the project**:
 
     ```sh
-    git clone --recursive https://github.com/fork-maintainers/iceraven-browser
+    git clone --recursive https://github.com/lagomphone/Information
     ```
 
 3. **Configure the project**:
